@@ -32,7 +32,10 @@ export async function resolveCity(
     if (!res.ok) throw new Error(`nominatim ${res.status}`);
     const j = (await res.json()) as NominatimResponse;
     const a = j.address ?? {};
-    return a.city || a.town || a.county || a.municipality || a.state || a.district || fallbackCity || DEFAULT_CITY;
+    const raw = a.city || a.town || a.county || a.municipality;
+    // 直辖市:区级落在 city 字段、真正的市在 state(如 东城区→北京市),用市级搜索覆盖更稳
+    const city = raw && raw.endsWith('区') ? a.state || raw : raw || a.state || a.district;
+    return city || fallbackCity || DEFAULT_CITY;
   } catch {
     return fallbackCity || DEFAULT_CITY;
   }

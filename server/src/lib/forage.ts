@@ -93,7 +93,8 @@ function normalize(items: RawPlace[], userLat?: number | null, userLng?: number 
 
 async function readCache(key: string): Promise<RawPlace[] | null> {
   try {
-    return JSON.parse(await fs.readFile(path.join(CACHE_DIR, `${key}.json`), 'utf8')) as RawPlace[];
+    const arr = JSON.parse(await fs.readFile(path.join(CACHE_DIR, `${key}.json`), 'utf8')) as RawPlace[];
+    return Array.isArray(arr) && arr.length ? arr : null; // 空缓存视为未命中
   } catch {
     return null;
   }
@@ -158,11 +159,11 @@ export async function forage(
 
   if (!items) {
     if (apiKey) {
-      // 生产:真实拉取。为空/失败也不用异地夹具冒充。
-      items = await fetchLive(city, cuisine, apiKey);
+      // 生产:真实拉取。只缓存非空结果(空/失败不缓存,下次重试;也绝不用异地夹具冒充)。
+      const live = await fetchLive(city, cuisine, apiKey);
       source = 'live';
-      if (items) await writeCache(key, items);
-      else items = [];
+      if (live?.length) await writeCache(key, live);
+      items = live ?? [];
     } else {
       // 本地无 key:回退内置夹具,便于离线开发。
       items = JSON.parse(await fs.readFile(FIXTURE, 'utf8')) as RawPlace[];
