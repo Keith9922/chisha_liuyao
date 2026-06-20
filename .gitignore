@@ -8,3 +8,8 @@ dist/
 .DS_Store
 .claude/worktrees/
 .playwright-mcp/
+
+# 前端本地密钥
+web/.env.local
+web/.env
+!web/.env.example

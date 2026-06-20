@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { castHexagram, isYaoValue } from './lib/liuyao.js';
 import { resolveCity } from './lib/geo.js';
 import { forage } from './lib/forage.js';
+import { fetchNotes } from './lib/social.js';
 import { chooseCuisine, interpret } from './lib/interpret.js';
 import type { DivineRequest, DivineResponse, YaoValue } from './types.js';
 
@@ -56,13 +57,16 @@ app.post('/api/divine', async (req, res) => {
     ]);
 
     const { restaurants, source } = await forage(city, cuisinePick.cuisine, v.lat, v.lng);
-    const reading = await interpret({
-      hex,
-      preference: v.preference,
-      restaurants,
-      eatHint: cuisinePick.eat,
-      avoidHint: cuisinePick.avoid,
-    });
+    const [reading, social] = await Promise.all([
+      interpret({
+        hex,
+        preference: v.preference,
+        restaurants,
+        eatHint: cuisinePick.eat,
+        avoidHint: cuisinePick.avoid,
+      }),
+      fetchNotes(city, cuisinePick.cuisine),
+    ]);
 
     const chosen = restaurants.find((r) => r.name === reading.chosenName) ?? restaurants[0] ?? null;
 
@@ -78,8 +82,11 @@ app.post('/api/divine', async (req, res) => {
       dish: reading.dish,
       chosen,
       restaurants,
+      notes: social.notes,
+      noteKeyword: social.keyword,
       meta: {
         source,
+        socialSource: social.source,
         llmCuisineFallback: cuisinePick.fallback,
         llmReadFallback: reading.fallback,
         llmError: reading.error,

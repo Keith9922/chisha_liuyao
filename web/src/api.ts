@@ -48,6 +48,18 @@ export interface Restaurant {
   lng: number | null;
   distance: number | null;
 }
+export interface SocialNote {
+  id: string;
+  url: string;
+  title: string;
+  desc: string;
+  cover: string | null;
+  likedCount: number | null;
+  collectedCount: number | null;
+  commentsCount: number | null;
+  author: string;
+  authorAvatar: string | null;
+}
 export interface DivineResponse {
   hexagram: Hexagram;
   city: string;
@@ -60,8 +72,11 @@ export interface DivineResponse {
   dish: string;
   chosen: Restaurant | null;
   restaurants: Restaurant[];
+  notes: SocialNote[];
+  noteKeyword: string;
   meta: {
     source: 'cache' | 'live' | 'fixture';
+    socialSource: 'cache' | 'live' | 'fixture' | 'none';
     llmCuisineFallback: boolean;
     llmReadFallback: boolean;
     llmError: string | null;

@@ -1,9 +1,10 @@
 import './styles/main.css';
 import { divine, DivineError } from './api.js';
-import type { DivineResponse, Restaurant, YaoValue } from './api.js';
+import type { DivineResponse, Restaurant, SocialNote, YaoValue } from './api.js';
 import { castSixYao, yaoValues } from './features/coins.js';
 import { hexagramSvg } from './features/hexagram.js';
 import { icons } from './features/icons.js';
+import { renderMap, bearingText, hasAmapKey, type MapPoint } from './features/amap.js';
 
 const PREFERENCES = ['清淡', '重辣', '想喝汤', '暖胃', '减脂', '无肉不欢', '下酒', '快手'];
 
@@ -24,6 +25,12 @@ const esc = (s: string): string =>
 function fmtDistance(m: number | null): string {
   if (m == null) return '附近';
   return m < 1000 ? `约 ${m} 米` : `约 ${(m / 1000).toFixed(1)} 公里`;
+}
+function fmtCount(n: number | null): string {
+  if (n == null) return '';
+  if (n >= 10000) return `${(n / 10000).toFixed(1)}w`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+  return String(n);
 }
 function preferenceString(): string {
   return [...state.prefs].join('、');
@@ -56,7 +63,8 @@ function renderIntro(): void {
       </div>
       <p class="hint" id="hint" role="alert"></p>
       <button class="cast-btn" id="cast" type="button">起 卦</button>
-    </section>`;
+    </section>
+    <p class="intro-credit">附近餐馆与小红书口碑 · 数据由 <a href="https://monid.ai" target="_blank" rel="noopener noreferrer">MONID</a> 提供</p>`;
   app.replaceChildren(view);
   const hint = view.querySelector<HTMLParagraphElement>('#hint')!;
   const clearHint = (): void => {
@@ -248,6 +256,104 @@ function placeholderThumb(): HTMLElement {
   return ph;
 }
 
+/* ---- 方位 / 地图卡 ---- */
+function mapCard(d: DivineResponse): HTMLElement {
+  const card = document.createElement('section');
+  card.className = 'card';
+  const user = state.lat != null && state.lng != null ? { lat: state.lat, lng: state.lng } : null;
+  const dir = d.chosen ? bearingText(user, d.chosen) : null;
+
+  // 方位/距离文案(地图成功与否都展示,作为可读补充与降级兜底)
+  const bits: string[] = [];
+  bits.push(`定位 · ${esc(d.city)}`);
+  if (d.chosen) {
+    if (dir) bits.push(`天选在你${esc(dir)}`);
+    bits.push(`直线${fmtDistance(d.chosen.distance)}`);
+  }
+
+  card.innerHTML = `
+    <div class="eyebrow">${icons.map()} 此 方 何 处</div>
+    <div class="mapwrap" id="mapwrap" role="img" aria-label="附近餐馆地图">
+      <div class="mapwrap__fallback" id="mapfallback">
+        ${icons.pin()}
+        <span>${bits.join(' · ')}</span>
+      </div>
+    </div>
+    <p class="map-meta">${bits.join('　·　')}</p>`;
+
+  // 异步渲染地图;无 key / 失败时保留文字兜底,绝不白屏
+  if (hasAmapKey()) {
+    const host = card.querySelector<HTMLDivElement>('#mapwrap')!;
+    const fb = card.querySelector<HTMLDivElement>('#mapfallback')!;
+    const shops: MapPoint[] = d.restaurants
+      .filter((r) => r.lat != null && r.lng != null)
+      .map((r) => ({ lat: r.lat as number, lng: r.lng as number, name: r.name, chosen: r.name === d.chosen?.name }));
+    host.classList.add('mapwrap--live');
+    void renderMap(host, user, shops).then((res) => {
+      if (res.ok) fb.remove();
+      else host.classList.remove('mapwrap--live');
+    });
+  }
+  return card;
+}
+
+/* ---- 网友怎么说(小红书) ---- */
+function noteCard(n: SocialNote): HTMLElement {
+  const a = document.createElement(n.url ? 'a' : 'div');
+  a.className = 'note';
+  if (n.url && a instanceof HTMLAnchorElement) {
+    a.href = n.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  }
+  const liked = fmtCount(n.likedCount);
+  const coll = fmtCount(n.collectedCount);
+  a.innerHTML = `
+    <div class="note__thumb-host"></div>
+    <div class="note__body">
+      <p class="note__title">${esc(n.title || n.desc)}</p>
+      <div class="note__foot">
+        <span class="note__author">${esc(n.author || '小红书')}</span>
+        <span class="note__stats">
+          ${liked ? `${icons.heart()}${liked}` : ''}
+          ${coll ? `${icons.bookmark()}${coll}` : ''}
+        </span>
+      </div>
+    </div>`;
+  const host = a.querySelector<HTMLDivElement>('.note__thumb-host')!;
+  if (n.cover) {
+    const img = document.createElement('img');
+    img.className = 'note__thumb';
+    img.src = n.cover;
+    img.alt = n.title;
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.addEventListener('error', () => img.replaceWith(noteThumbPh()));
+    host.replaceWith(img);
+  } else {
+    host.replaceWith(noteThumbPh());
+  }
+  return a;
+}
+function noteThumbPh(): HTMLElement {
+  const ph = document.createElement('div');
+  ph.className = 'note__thumb note__thumb--ph';
+  ph.innerHTML = icons.spark();
+  return ph;
+}
+function notesCard(d: DivineResponse): HTMLElement | null {
+  if (!d.notes.length) return null;
+  const sec = document.createElement('section');
+  sec.className = 'card';
+  sec.innerHTML = `
+    <div class="eyebrow">${icons.heart()} 网 友 怎 么 说</div>
+    <p class="notes__hint">小红书关于「${esc(d.noteKeyword)}」的真实笔记 · 左右滑动</p>
+    <div class="notes" id="notes"></div>`;
+  const rail = sec.querySelector<HTMLDivElement>('#notes')!;
+  for (const n of d.notes) rail.append(noteCard(n));
+  return sec;
+}
+
 function renderResult(d: DivineResponse): void {
   const view = document.createElement('div');
   view.className = 'view';
@@ -280,6 +386,9 @@ function renderResult(d: DivineResponse): void {
   if (d.chosen) {
     view.append(pickCard(d.chosen, d.dish));
 
+    // 此方何处:地图 + 文字方位
+    view.append(mapCard(d));
+
     const alts = d.restaurants.filter((r) => r.name !== d.chosen?.name).slice(0, 4);
     if (alts.length) {
       const sec = document.createElement('section');
@@ -305,6 +414,10 @@ function renderResult(d: DivineResponse): void {
     view.append(empty);
   }
 
+  // 网友怎么说:小红书笔记横滑(独立板块,有无天选都展示)
+  const notes = notesCard(d);
+  if (notes) view.append(notes);
+
   // 祝语
   const bless = document.createElement('p');
   bless.className = 'blessing';
@@ -322,12 +435,21 @@ function renderResult(d: DivineResponse): void {
   actions.append(again);
   view.append(actions);
 
-  if (d.meta.source === 'fixture') {
-    const note = document.createElement('p');
-    note.className = 'meta-note';
-    note.textContent = '＊当前为离线示例餐馆数据';
-    view.append(note);
-  }
+  // 数据署名 + 离线提示
+  const colophon = document.createElement('div');
+  colophon.className = 'colophon';
+  const notesLive = d.meta.socialSource === 'live' || d.meta.socialSource === 'cache';
+  colophon.innerHTML = `
+    <p class="colophon__credit">
+      餐馆与口碑数据由 <a href="https://monid.ai" target="_blank" rel="noopener noreferrer">MONID</a> 提供
+      <span class="colophon__sub">· 餐馆 Google Maps · 口碑 小红书</span>
+    </p>
+    ${
+      d.meta.source === 'fixture' || !notesLive
+        ? `<p class="colophon__offline">＊当前部分为离线示例数据,上线后即为实时</p>`
+        : ''
+    }`;
+  view.append(colophon);
 
   app.replaceChildren(view);
   window.scrollTo({ top: 0 });

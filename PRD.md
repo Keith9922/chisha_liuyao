@@ -11,6 +11,12 @@
 > **v1.0 架构更新**：项目已**全面 TypeScript 化**(npm workspaces:`server` Express+TS、`web` Vite+TS),
 > 前端单页已实现。原"原生单文件 HTML"方案已废弃。下方 §3/§7 为最新结构与���令。
 
+> **v1.1 增量(本次)**：①结果页新增「此方何处」——高德地图(可选,`VITE_AMAP_KEY`)展示你与餐馆位置,
+> 无 key/失败时降级为「文字方位」(指南针朝向+直线距离),坐标 WGS-84→GCJ-02 用 `AMap.convertFrom` 纠偏。
+> ②接入 MONID 小红书笔记(`tikhub /xiaohongshu/app_v2/search_notes`)→ 结果页「网友怎么说」横滑卡片;
+> 界面注明「数据由 MONID 提供」。后端新增 `server/src/lib/social.ts`(缓存优先+夹具兜底+`MONID_SOCIAL_LIVE` 开关)。
+> 新增响应字段 `notes`/`noteKeyword`/`meta.socialSource`;前端新增 `web/src/features/amap.ts` + `web/.env.example`。
+
 | 模块 | 状态 | 说明 |
 |------|------|------|
 | 后端全链路 | ✅ 完成(TS) | 起卦 → LLM定菜系 → 定位 → 觅食 → LLM解卦,严格类型 + 边界拦截 |

@@ -99,6 +99,21 @@ export interface Restaurant {
   distance: number | null;
 }
 
+// ── 社交笔记(小红书,经 MONID/TikHub) ──
+export interface SocialNote {
+  id: string;
+  url: string;
+  title: string;
+  desc: string;
+  cover: string | null;
+  likedCount: number | null;
+  collectedCount: number | null;
+  commentsCount: number | null;
+  author: string;
+  authorAvatar: string | null;
+}
+export type SocialSource = 'cache' | 'live' | 'fixture' | 'none';
+
 // ── 解卦 LLM 输出 ──
 export interface CuisinePick {
   cuisine: string;
@@ -139,8 +154,11 @@ export interface DivineResponse {
   dish: string;
   chosen: Restaurant | null;
   restaurants: Restaurant[];
+  notes: SocialNote[];
+  noteKeyword: string;
   meta: {
     source: DataSource;
+    socialSource: SocialSource;
     llmCuisineFallback: boolean;
     llmReadFallback: boolean;
     llmError: string | null;

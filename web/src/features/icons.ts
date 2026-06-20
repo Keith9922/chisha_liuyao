@@ -14,4 +14,13 @@ export const icons = {
     wrap('<path d="M5 3v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3"/><path d="M7 12v9"/><path d="M17 3c-1.7 0-3 2-3 5s1 4 3 4v9"/>'),
   spark: (): string =>
     wrap('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>'),
+  map: (): string =>
+    wrap('<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14"/><path d="M15 6v14"/>'),
+  heart: (): string =>
+    wrap('<path d="M19 5.5a4.3 4.3 0 0 0-6 0L12 6.6l-1-1.1a4.3 4.3 0 1 0-6 6l7 7 7-7a4.3 4.3 0 0 0 0-6Z"/>'),
+  bookmark: (): string => wrap('<path d="M6 3h12v18l-6-4-6 4V3Z"/>'),
+  external: (): string =>
+    wrap('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>'),
+  pin: (): string =>
+    wrap('<path d="M20 10c0 4.4-8 12-8 12s-8-7.6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
 };
