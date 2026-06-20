@@ -58,6 +58,10 @@ function renderIntro(): void {
       <button class="cast-btn" id="cast" type="button">起 卦</button>
     </section>`;
   app.replaceChildren(view);
+  const hint = view.querySelector<HTMLParagraphElement>('#hint')!;
+  const clearHint = (): void => {
+    hint.textContent = '';
+  };
 
   // 口味 chips
   const chips = view.querySelector<HTMLDivElement>('#chips')!;
@@ -81,15 +85,19 @@ function renderIntro(): void {
   cityInput.value = state.city;
   cityInput.addEventListener('input', () => {
     state.city = cityInput.value;
+    clearHint();
   });
 
   // 定位
   const geoBtn = view.querySelector<HTMLButtonElement>('#geo')!;
   if (state.lat != null) geoBtn.dataset.state = 'ok';
-  geoBtn.addEventListener('click', () => void requestGeo(geoBtn));
+  geoBtn.addEventListener('click', () => {
+    void requestGeo(geoBtn).then(() => {
+      if (state.lat != null) clearHint();
+    });
+  });
 
   // 起卦
-  const hint = view.querySelector<HTMLParagraphElement>('#hint')!;
   view.querySelector<HTMLButtonElement>('#cast')!.addEventListener('click', () => {
     if (state.lat == null && !state.city.trim()) {
       hint.textContent = '请先授权定位，或填写所在城市。';
