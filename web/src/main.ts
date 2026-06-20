@@ -97,13 +97,18 @@ function renderIntro(): void {
     });
   });
 
-  // 起卦
-  view.querySelector<HTMLButtonElement>('#cast')!.addEventListener('click', () => {
+  // 起卦:无定位也无城市时,先直接申请浏览器定位(更方便),失败再引导填城市
+  view.querySelector<HTMLButtonElement>('#cast')!.addEventListener('click', async () => {
     if (state.lat == null && !state.city.trim()) {
-      hint.textContent = '请先授权定位，或填写所在城市。';
-      cityInput.focus();
-      return;
+      hint.textContent = '正在获取你的位置…';
+      await requestGeo(geoBtn);
+      if (state.lat == null && !state.city.trim()) {
+        hint.textContent = '请授权定位，或填写所在城市。';
+        cityInput.focus();
+        return;
+      }
     }
+    clearHint();
     void runCast();
   });
 }
@@ -271,25 +276,33 @@ function renderResult(d: DivineResponse): void {
     </div>`;
   view.append(reading);
 
-  // 天选餐馆
-  if (d.chosen) view.append(pickCard(d.chosen, d.dish));
+  // 天选餐馆 / 空结果
+  if (d.chosen) {
+    view.append(pickCard(d.chosen, d.dish));
 
-  // 备选
-  const alts = d.restaurants.filter((r) => r.name !== d.chosen?.name).slice(0, 4);
-  if (alts.length) {
-    const sec = document.createElement('section');
-    sec.className = 'card';
-    sec.innerHTML = `<div class="eyebrow">${icons.utensils()} 另 备 数 席</div><ul class="alts"></ul>`;
-    const ul = sec.querySelector<HTMLUListElement>('.alts')!;
-    for (const r of alts) {
-      const li = document.createElement('li');
-      li.className = 'alt';
-      li.innerHTML = `
-        <span class="alt__name">${esc(r.name)}${r.type ? ` <span class="alt__type">${esc(r.type)}</span>` : ''}</span>
-        <span class="alt__meta">${r.rating != null ? `★ ${r.rating.toFixed(1)} · ` : ''}${fmtDistance(r.distance)}</span>`;
-      ul.append(li);
+    const alts = d.restaurants.filter((r) => r.name !== d.chosen?.name).slice(0, 4);
+    if (alts.length) {
+      const sec = document.createElement('section');
+      sec.className = 'card';
+      sec.innerHTML = `<div class="eyebrow">${icons.utensils()} 另 备 数 席</div><ul class="alts"></ul>`;
+      const ul = sec.querySelector<HTMLUListElement>('.alts')!;
+      for (const r of alts) {
+        const li = document.createElement('li');
+        li.className = 'alt';
+        li.innerHTML = `
+          <span class="alt__name">${esc(r.name)}${r.type ? ` <span class="alt__type">${esc(r.type)}</span>` : ''}</span>
+          <span class="alt__meta">${r.rating != null ? `★ ${r.rating.toFixed(1)} · ` : ''}${fmtDistance(r.distance)}</span>`;
+        ul.append(li);
+      }
+      view.append(sec);
     }
-    view.append(sec);
+  } else {
+    const empty = document.createElement('section');
+    empty.className = 'card';
+    empty.innerHTML = `
+      <div class="eyebrow">${icons.compass()} 天 选</div>
+      <p class="reading__text">${esc(d.city)}附近这一卦暂未寻到「${esc(d.cuisine)}」的去处。换个口味，或再卜一卦试试。</p>`;
+    view.append(empty);
   }
 
   // 祝语

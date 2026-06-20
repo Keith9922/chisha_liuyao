@@ -1,19 +1,22 @@
-// 觅食:菜系关键词 + 城市 → 餐馆列表。默认走本地缓存(零成本);
-// 仅当 MONID_LIVE=1 时真实调用 monid(每次约 $0.09);再不行回退夹具,永不空手。
+// 觅食:菜系关键词 + 城市 → 真实附近餐馆。
+// 生产走 monid HTTP API(api.monid.ai/v1/run + 轮询 /v1/runs/:id,Bearer MONID_API_KEY),无需 CLI。
+// 缓存优先(同 城市|菜系 命中即免费)。配置了 key 时真实为空也返回空——绝不用异地夹具冒充,保证准确。
+// 未配置 key(本地开发)时回退内置夹具,便于离线调 UI。
 
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { DataSource, Restaurant } from '../types.js';
 
-const execFileP = promisify(execFile);
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CACHE_DIR = path.join(root, 'cache');
 const FIXTURE = path.join(root, 'fixtures', 'chengdu_hotpot.json');
 const MAX_RESULTS = 6;
+
+const API_BASE = process.env.MONID_API_BASE || 'https://api.monid.ai';
+const PROVIDER = 'apify';
+const ENDPOINT = '/damilo/google-maps-scraper';
 
 interface RawPlace {
   title?: string;
@@ -27,15 +30,25 @@ interface RawPlace {
   phoneNumber?: string;
   thumbnailUrl?: string;
 }
+interface RunCreateResponse {
+  runId: string;
+  status: string;
+}
+interface RunStatusResponse {
+  status: string;
+  output?: RawPlace[];
+}
 
 const cacheKey = (city: string, cuisine: string): string =>
   crypto.createHash('md5').update(`${city}|${cuisine}`).digest('hex');
+
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
 function extractItems(raw: unknown): RawPlace[] {
   if (Array.isArray(raw)) return raw as RawPlace[];
   if (raw && typeof raw === 'object') {
     const obj = raw as Record<string, unknown>;
-    for (const key of ['data', 'results', 'items']) {
+    for (const key of ['output', 'data', 'results', 'items']) {
       if (Array.isArray(obj[key])) return obj[key] as RawPlace[];
     }
     const firstArr = Object.values(obj).find((v) => Array.isArray(v));
@@ -78,26 +91,57 @@ function normalize(items: RawPlace[], userLat?: number | null, userLng?: number 
   });
 }
 
-async function readCache(key: string): Promise<unknown | null> {
+async function readCache(key: string): Promise<RawPlace[] | null> {
   try {
-    return JSON.parse(await fs.readFile(path.join(CACHE_DIR, `${key}.json`), 'utf8')) as unknown;
+    return JSON.parse(await fs.readFile(path.join(CACHE_DIR, `${key}.json`), 'utf8')) as RawPlace[];
   } catch {
     return null;
   }
 }
 
-async function liveScrape(city: string, cuisine: string): Promise<unknown> {
-  const body = JSON.stringify({ query: cuisine, location: city, language: 'zh-cn', max_results: MAX_RESULTS });
-  const { stdout } = await execFileP(
-    'monid',
-    ['run', '-p', 'apify', '-e', '/damilo/google-maps-scraper', '-i', body, '-w', '90', '-j'],
-    { env: { ...process.env, NO_COLOR: '1' }, maxBuffer: 10 * 1024 * 1024 },
-  );
-  const start = stdout.indexOf('{');
-  const data = JSON.parse(stdout.slice(start)) as unknown;
-  await fs.mkdir(CACHE_DIR, { recursive: true });
-  await fs.writeFile(path.join(CACHE_DIR, `${cacheKey(city, cuisine)}.json`), JSON.stringify(data));
-  return data;
+async function writeCache(key: string, items: RawPlace[]): Promise<void> {
+  try {
+    await fs.mkdir(CACHE_DIR, { recursive: true });
+    await fs.writeFile(path.join(CACHE_DIR, `${key}.json`), JSON.stringify(items));
+  } catch {
+    /* 缓存写失败不致命 */
+  }
+}
+
+// 真实 HTTP 拉取:POST /v1/run → 轮询 /v1/runs/:id → output。失败/超时返回 null。
+async function fetchLive(city: string, cuisine: string, apiKey: string): Promise<RawPlace[] | null> {
+  const headers = { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' };
+  try {
+    const createRes = await fetch(`${API_BASE}/v1/run`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        provider: PROVIDER,
+        endpoint: ENDPOINT,
+        input: { query: cuisine, location: city, language: 'zh-cn', max_results: MAX_RESULTS },
+      }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!createRes.ok) throw new Error(`monid run ${createRes.status}`);
+    const { runId } = (await createRes.json()) as RunCreateResponse;
+    if (!runId) throw new Error('no runId');
+
+    for (let i = 0; i < 18; i++) {
+      await sleep(5000);
+      const statusRes = await fetch(`${API_BASE}/v1/runs/${runId}`, {
+        headers,
+        signal: AbortSignal.timeout(20000),
+      });
+      if (!statusRes.ok) continue;
+      const run = (await statusRes.json()) as RunStatusResponse;
+      if (run.status === 'COMPLETED') return extractItems(run.output ?? []);
+      if (run.status === 'FAILED') return null;
+    }
+    return null; // 超时
+  } catch (e) {
+    console.error('[forage] monid live error:', e instanceof Error ? e.message : e);
+    return null;
+  }
 }
 
 export async function forage(
@@ -106,19 +150,27 @@ export async function forage(
   userLat?: number | null,
   userLng?: number | null,
 ): Promise<{ restaurants: Restaurant[]; source: DataSource }> {
-  let raw = await readCache(cacheKey(city, cuisine));
+  const key = cacheKey(city, cuisine);
+  const apiKey = process.env.MONID_API_KEY;
+
+  let items = await readCache(key);
   let source: DataSource = 'cache';
 
-  if (!raw && process.env.MONID_LIVE === '1') {
-    raw = await liveScrape(city, cuisine);
-    source = 'live';
-  }
-  if (!raw) {
-    raw = JSON.parse(await fs.readFile(FIXTURE, 'utf8')) as unknown;
-    source = 'fixture';
+  if (!items) {
+    if (apiKey) {
+      // 生产:真实拉取。为空/失败也不用异地夹具冒充。
+      items = await fetchLive(city, cuisine, apiKey);
+      source = 'live';
+      if (items) await writeCache(key, items);
+      else items = [];
+    } else {
+      // 本地无 key:回退内置夹具,便于离线开发。
+      items = JSON.parse(await fs.readFile(FIXTURE, 'utf8')) as RawPlace[];
+      source = 'fixture';
+    }
   }
 
-  const restaurants = normalize(extractItems(raw), userLat, userLng)
+  const restaurants = normalize(items, userLat, userLng)
     .filter((r) => r.name)
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     .slice(0, MAX_RESULTS);

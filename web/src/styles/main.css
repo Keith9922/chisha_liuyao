@@ -119,11 +119,9 @@ body::after {
   flex-direction: column;
 }
 
-/* 桌面端:内容垂直居中,空间显得有意;长结果页超高时自然回到流式滚动(margin auto 不裁切) */
+/* 桌面端:克制呈现——保持移动端式的居中窄列(不拉宽),内容垂直居中;
+   长结果页超高时 margin auto 自动让位为顶对齐滚动,不裁切 */
 @media (min-width: 768px) {
-  .app {
-    max-width: 600px;
-  }
   .view {
     margin-block: auto;
   }
