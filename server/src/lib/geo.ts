@@ -23,7 +23,7 @@ export async function resolveCity(
   if (lat == null || lng == null) return fallbackCity || DEFAULT_CITY;
   try {
     const url =
-      `https://nominatim.openstreetmap.org/reverse?format=json&zoom=12&accept-language=zh` +
+      `https://nominatim.openstreetmap.org/reverse?format=json&zoom=10&accept-language=zh` +
       `&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}`;
     const res = await fetch(url, {
       headers: { 'User-Agent': 'chisha-liuyao/1.0 (divination food app)' },
