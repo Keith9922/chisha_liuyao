@@ -1,0 +1,11 @@
+{
+  "project": "4e374722-e512-43fb-8b6b-54c5dbf311be",
+  "service": "06fb8fee-7195-4499-a05a-6093d82dd822",
+  "project_id": "4e374722-e512-43fb-8b6b-54c5dbf311be",
+  "service_id": "06fb8fee-7195-4499-a05a-6093d82dd822",
+  "version": 1,
+  "root": "/Users/ronggang/code/funcode/chisha_liuyao",
+  "updated_at": "2026-06-20T12:16:00.968Z",
+  "deployment_id": "e603aa24-0cb8-467e-a3a4-2375192fcd7b",
+  "live_url": "https://tianxuancai.opendeploy.site"
+}
