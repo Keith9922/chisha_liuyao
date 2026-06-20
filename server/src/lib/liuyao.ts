@@ -8,7 +8,7 @@ const tossLine = (rng: () => number): YaoValue =>
 
 const isYang = (v: YaoValue): boolean => v === 7 || v === 9;
 const isMoving = (v: YaoValue): boolean => v === 6 || v === 9;
-const isYaoValue = (v: unknown): v is YaoValue => v === 6 || v === 7 || v === 8 || v === 9;
+export const isYaoValue = (v: unknown): v is YaoValue => v === 6 || v === 7 || v === 8 || v === 9;
 
 function trigramInfo(bits3: string): TrigramInfo {
   const t = TRIGRAMS[bits3];

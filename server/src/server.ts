@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { castHexagram } from './lib/liuyao.js';
+import { castHexagram, isYaoValue } from './lib/liuyao.js';
 import { resolveCity } from './lib/geo.js';
 import { forage } from './lib/forage.js';
 import { chooseCuisine, interpret } from './lib/interpret.js';
@@ -21,8 +21,6 @@ interface ValidInput {
   city?: string;
 }
 type ValidationError = { error: string; message: string };
-
-const isYaoValue = (v: unknown): v is YaoValue => v === 6 || v === 7 || v === 8 || v === 9;
 
 // 边界校验:无定位且无城市 → 拦截;卦数据格式非法 → 拦截。
 function validate(body: DivineRequest): ValidInput | ValidationError {

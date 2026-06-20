@@ -103,13 +103,16 @@ export async function interpret(args: {
 }): Promise<Reading> {
   const { hex, preference, restaurants, eatHint, avoidHint } = args;
   const top = restaurants[0];
+  const defaultFortune = `${hex.summary}，${hex.ben.daXiang || '万象更新'}，宜顺本心择食。`;
+  const defaultDish = '招牌菜';
+  const defaultBlessing = '食得其时，万事顺遂。';
   const fallback = (error: string | null): Reading => ({
-    fortune: `${hex.summary}，${hex.ben.daXiang || '万象更新'}，宜顺本心择食。`,
+    fortune: defaultFortune,
     eat: eatHint || hex.ben.upper.element,
     avoid: avoidHint || '生冷',
     chosenName: top?.name ?? '',
-    dish: '招牌菜',
-    blessing: '食得其时，万事顺遂。',
+    dish: defaultDish,
+    blessing: defaultBlessing,
     fallback: true,
     error,
   });
@@ -137,12 +140,12 @@ ${list}
     const p = parseJson(await callMiniMax({ system: READ_SYSTEM, user, maxTokens: 700 }));
     const chosen = restaurants.find((r) => r.name === str(p.chosenName)) ?? top;
     return {
-      fortune: str(p.fortune, fallback(null).fortune),
+      fortune: str(p.fortune, defaultFortune),
       eat: str(p.eat, eatHint),
       avoid: str(p.avoid, avoidHint),
       chosenName: chosen.name,
-      dish: str(p.dish, '招牌菜'),
-      blessing: str(p.blessing, '食得其时，万事顺遂。'),
+      dish: str(p.dish, defaultDish),
+      blessing: str(p.blessing, defaultBlessing),
       fallback: false,
       error: null,
     };
