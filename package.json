@@ -12,7 +12,7 @@
     "dev": "concurrently -n server,web -c blue,magenta \"npm:dev -w server\" \"npm:dev -w web\"",
     "build": "npm run build -w server && npm run build -w web",
     "lint": "npm run lint -w server && npm run lint -w web",
-    "start": "node --env-file=.env server/dist/server.js"
+    "start": "node server/dist/server.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
