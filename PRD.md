@@ -8,16 +8,20 @@
 
 ## 0. 当前状态速览
 
+> **v1.0 架构更新**：项目已**全面 TypeScript 化**(npm workspaces:`server` Express+TS、`web` Vite+TS),
+> 前端单页已实现。原"原生单文件 HTML"方案已废弃。下方 §3/§7 为最新结构与���令。
+
 | 模块 | 状态 | 说明 |
 |------|------|------|
-| 后端全链路 | ✅ 完成并实测通过 | 起卦 → LLM定菜系 → 定位 → 觅食 → LLM解卦 |
+| 后端全链路 | ✅ 完成(TS) | 起卦 → LLM定菜系 → 定位 → 觅食 → LLM解卦,严格类型 + 边界拦截 |
 | 六爻内核（64卦数据） | ✅ 完成 | 移植自 Qliuyao，权威卦辞/爻辞/彖象 |
 | monid 餐馆数据集成 | ✅ 跑通 | CLI 子进程调用 + 缓存，已存夹具 |
 | MiniMax 解卦集成 | ✅ 跑通 | Anthropic 兼容接口，MiniMax-M3 |
-| **前端页面** | ❌ **未开始** | `public/` 为空，下一步重点 |
-| Demo 缓存预热 | ⬜ 待办 | 见 §8 成本与缓存 |
+| **前端页面** | ✅ 完成(Vite+TS) | 铜钱起卦动画 + 卦象SVG + 天选餐馆卡,「子夜问卦」深色国风 |
+| lint + build | ✅ 两端通过 | 严格 TS + eslint,无 any |
+| Demo 缓存预热 / 上线部署 | ⬜ 待办 | 见 §8 / 部署到 OpenDeploy |
 
-**下一步 = 搭前端**（铜钱起卦动画 + 卦象 SVG + 天选餐馆卡）。
+**下一步 = 端到端验收(Playwright 桌面+移动) → 部署上线**。
 
 ---
 
@@ -67,27 +71,42 @@
 ## 3. 目录结构
 
 ```
-chisha_liuyao/
-├── .env                      # 密钥与开关（见 §7）
-├── .gitignore
-├── package.json              # type:module; scripts: start/dev (--env-file=.env)
-├── server/
-│   ├── server.js             # Express，POST /api/divine、GET /api/health
-│   ├── lib/
-│   │   ├── liuyao.js         # 六爻起卦 + 组装富卦象对象（核心）
-│   │   ├── data.js           # 加载 hexagrams/trigrams/wings JSON
-│   │   ├── guaAnalysis.js    # 互/错/综卦 + 当位/中正/应位/承乘（移植自 Qliuyao）
-│   │   ├── geo.js            # 经纬度→城市（Nominatim，含手填兜底）
-│   │   ├── forage.js         # monid 抓餐馆 + 缓存 + 距离计算 + top6
-│   │   └── interpret.js      # chooseCuisine() + interpret()，调 MiniMax
-│   ├── data/                 # 易经数据（来自 Qliuyao，Python dump 成 JSON）
-│   │   ├── hexagrams.json    # 64卦：卦辞+六爻爻辞+符号+拼音
-│   │   ├── trigrams.json     # 8卦象意：五行/卦德/象征
-│   │   └── wings.json        # 彖传 + 大象传
-│   ├── fixtures/
-│   │   └── chengdu_hotpot.json   # 成都火锅真实抓取结果（开发夹具）
-│   └── cache/                # 运行期缓存：md5(city|cuisine).json
-└── public/                   # 前端（待建）
+chisha_liuyao/                   # npm workspaces 单仓库
+├── .env                         # 密钥与开关（见 §7,gitignored）
+├── package.json                 # 根:workspaces[server,web] + 编排脚本(dev/build/lint/start)
+├── server/                      # 后端 Express + TypeScript
+│   ├── package.json             # scripts: dev(tsx) / build(tsc) / start / lint
+│   ├── tsconfig.json            # NodeNext + strict
+│   ├── eslint.config.js         # no-explicit-any: error
+│   ├── src/
+│   │   ├── server.ts            # Express,POST /api/divine + GET /api/health + 静态托管 web/dist + 输入校验
+│   │   ├── types.ts             # 领域类型 + API 契约(服务端权威)
+│   │   └── lib/
+│   │       ├── liuyao.ts        # 六爻起卦 + 组装富卦象(核心),导出 isYaoValue
+│   │       ├── data.ts          # 加载 hexagrams/trigrams/wings JSON
+│   │       ├── guaAnalysis.ts   # 互/错/综卦 + 当位/中正/应位/承乘
+│   │       ├── geo.ts           # 经纬度→城市(Nominatim,含手填兜底)
+│   │       ├── forage.ts        # monid 抓餐馆 + 缓存 + 距离 + top6
+│   │       └── interpret.ts     # chooseCuisine() + interpret(),调 MiniMax
+│   ├── data/*.json              # 易经数据(64卦/八卦/彖象,来自 Qliuyao)
+│   ├── fixtures/chengdu_hotpot.json  # 开发夹具
+│   ├── cache/                   # 运行期缓存 md5(city|cuisine).json (gitignored)
+│   └── dist/                    # tsc 产物 (gitignored)
+└── web/                         # 前端 Vite + TypeScript
+    ├── package.json             # scripts: dev / build(tsc+vite) / preview / lint
+    ├── tsconfig.json            # Bundler + strict + noUnused*
+    ├── vite.config.ts           # dev 代理 /api → :3000
+    ├── eslint.config.js
+    ├── index.html               # 字体 link(Noto Serif/Sans SC + Ma Shan Zheng)
+    ├── src/
+    │   ├── main.ts              # 状态机 + 三视图(问卦/起卦/结果/错误)渲染与交互
+    │   ├── api.ts               # API 契约(镜像服务端) + divine() 调用 + DivineError
+    │   ├── styles/main.css      # 「子夜问卦」设计系统
+    │   └── features/
+    │       ├── coins.ts         # 起卦逻辑(三铜钱×六爻,前端生成真实卦值)
+    │       ├── hexagram.ts      # 卦象 SVG(阳实阴断/动爻朱砂/逐爻显现)
+    │       └── icons.ts         # 真 SVG 图标
+    └── dist/                    # vite 产物 (gitignored,生产由 server 托管)
 ```
 
 ---
@@ -208,9 +227,19 @@ PORT=3000
 ```
 运行：
 ```bash
-npm install          # 仅 express
-npm start            # node --env-file=.env server/server.js
-# 测试：
+npm install          # 安装 server + web 两个 workspace 依赖
+
+# 开发(前后端并行,前端 :5173 代理 /api 到后端 :3000)
+npm run dev
+
+# 生产构建 + 启动(后端托管前端 dist,单端口 :3000)
+npm run build        # 构建 server(tsc) + web(vite)
+npm start            # node --env-file=.env server/dist/server.js
+
+# 质量门
+npm run lint         # 两端 eslint
+
+# 测试单个接口:
 curl -s -X POST localhost:3000/api/divine -H 'content-type: application/json' \
   -d '{"lines":[7,8,9,8,7,8],"preference":"想喝点汤","lat":30.66,"lng":104.07,"city":"成都市"}'
 ```
