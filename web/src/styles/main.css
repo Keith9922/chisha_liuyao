@@ -40,6 +40,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -111,10 +112,21 @@ body::after {
   width: 100%;
   max-width: 560px;
   margin: 0 auto;
-  padding: clamp(24px, 6vw, 56px) clamp(18px, 5vw, 32px) calc(48px + env(safe-area-inset-bottom));
+  padding: calc(clamp(24px, 6vw, 56px) + env(safe-area-inset-top)) clamp(18px, 5vw, 32px)
+    calc(48px + env(safe-area-inset-bottom));
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+/* 桌面端:内容垂直居中,空间显得有意;长结果页超高时自然回到流式滚动(margin auto 不裁切) */
+@media (min-width: 768px) {
+  .app {
+    max-width: 600px;
+  }
+  .view {
+    margin-block: auto;
+  }
 }
 
 .view {
@@ -200,8 +212,8 @@ body::after {
   background: var(--ink-3);
   border: 1px solid var(--ink-line);
   border-radius: 999px;
-  padding: 9px 16px;
-  min-height: 40px;
+  padding: 10px 16px;
+  min-height: 44px;
   cursor: pointer;
   transition:
     color 0.2s,
