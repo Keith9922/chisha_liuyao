@@ -1,0 +1,453 @@
+[
+  {
+    "position": 1,
+    "title": "蜀大侠火锅骡马市店",
+    "address": "中国四川省成都市青羊区骡马市西玉龙街18号 邮政编码: 610014",
+    "latitude": 30.66724,
+    "longitude": 104.06846,
+    "rating": 4.9,
+    "ratingCount": 17,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 158 2845 7395",
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEssGCimoR5dJh4eFnMcy42k2s2GTn2QPJpvS6zpw1xv_kJ7G90OoJ0peLmet0Th6upUX8RENc0CkFXG7Yd4mtLDoByLlA2TDKtDGvkFpVjRr98lnQLL8w5k8o3buJoMheqjSSb1g",
+    "cid": "3509367645958431346",
+    "fid": "0x36efc5310ba2b3ff:0x30b3c747d399e272",
+    "placeId": "ChIJ_7OiCzHF7zYRcuKZ00fHszA"
+  },
+  {
+    "position": 2,
+    "title": "清真火锅",
+    "address": "中国四川省成都市青羊区仁厚街22号附4 邮政编码: 610015",
+    "latitude": 30.663093,
+    "longitude": 104.05839999999999,
+    "rating": 4.8,
+    "ratingCount": 16,
+    "priceLevel": "¥50-100",
+    "type": "餐馆",
+    "types": [
+      "餐馆"
+    ],
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEV5FXx08DWfgZpfkjPADSJIYwnQm4ppUPEQ5GfQJHu3w9B9BamuIjqzsAzu4pCPhhbVeuPRr0VkUdToo7BjGUUwD2JcwmBlrPTtMZoFTQz31YvUBX1lDoN0UHL8nrwolRIZ3nz",
+    "cid": "12126962533874744500",
+    "fid": "0x36efc526137e462d:0xa84ba02c54133cb4",
+    "placeId": "ChIJLUZ-EybF7zYRtDwTVCygS6g"
+  },
+  {
+    "position": 3,
+    "title": "小龙坎老火锅",
+    "address": "中国四川省成都市锦江区下东大街段36号蓝光·郁金香花园广场 邮政编码: 610023",
+    "latitude": 30.651055999999997,
+    "longitude": 104.08012099999999,
+    "rating": 4.4,
+    "ratingCount": 78,
+    "type": "餐馆",
+    "types": [
+      "餐馆"
+    ],
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHuiQ3JLdefXbHBT-vx9cSufZMiaslcc5GHRq4C8JZAJjNW5VVKkw1-rua0q8iZJ5NVp-zB552CGU8v4Z0GlPxi7ECnuWrKLjTzAVOBvf_DHKz2U9zyD9JYgWXrxmUo9vZZbQPqS8mbtxYl",
+    "cid": "15845951098803128730",
+    "fid": "0x36efc541d3f7503f:0xdbe82091a45f099a",
+    "placeId": "ChIJP1D300HF7zYRmglfpJEg6Ns"
+  },
+  {
+    "position": 4,
+    "title": "龙森园",
+    "address": "中国四川省成都市青羊区青羊宫商圈琴台路58号 邮政编码: 610032",
+    "latitude": 30.6588779,
+    "longitude": 104.0453483,
+    "rating": 4.4,
+    "ratingCount": 30,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 28 8615 5158",
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHqH4feDRnxZ08nc4FqGCjpQboSq-4bnxYIyKv4Dk_1KKGWJvdxQuOVjA4rSogKizQlQotKG9qSfXiuojdbqEKKdF3dl23WJMrnHJD4SBVkZAk-gTL6zp6GzpHkzDd-DjeX1EI6MA",
+    "cid": "7136942796636183147",
+    "fid": "0x36efc4dc66db198f:0x630b83a90fc85a6b",
+    "placeId": "ChIJjxnbZtzE7zYRa1rID6mDC2M"
+  },
+  {
+    "position": 5,
+    "title": "喜临门火锅提督街店",
+    "address": "中国四川省成都市锦江区骡马市提督街48号 邮政编码: 610016",
+    "latitude": 30.65947,
+    "longitude": 104.0753,
+    "rating": 4.8,
+    "ratingCount": 5,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 153 9263 9538",
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGOX4qii_8Lf-_U7raCbUC-H6pxoc96e0kOg0b7d_ITU9XHp9_-JGMfh9XrwfAPCczY7SKzaMjraBi3-8zAvddJnETzQz_DySH466yF_a2TMsz8z1eVXXnxpeTq6idnOrMgihMZIg",
+    "cid": "4708383248977477907",
+    "fid": "0x36efc538f4fc6f95:0x4157899e6db3c113",
+    "placeId": "ChIJlW_89DjF7zYRE8GzbZ6JV0E"
+  },
+  {
+    "position": 6,
+    "title": "重庆老火锅王",
+    "address": "中国四川省成都市金牛区西安北路90号附1 邮政编码: 610032",
+    "latitude": 30.670644,
+    "longitude": 104.04847699999999,
+    "rating": 4.8,
+    "ratingCount": 4,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "cid": "11210252910246403208",
+    "fid": "0x36efc4d6af80a437:0x9b92d1a09d869c88",
+    "placeId": "ChIJN6SAr9bE7zYRiJyGnaDRkps"
+  },
+  {
+    "position": 7,
+    "title": "丰涛黄喉火锅",
+    "address": "中国四川省成都市武侯区高升桥广福桥街6号 邮政编码: 610044",
+    "latitude": 30.632458999999997,
+    "longitude": 104.039318,
+    "rating": 4.5,
+    "ratingCount": 2,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 28 8506 1555",
+    "cid": "568802918350129898",
+    "fid": "0x36efc4587ef04423:0x7e4cb3d97770aea",
+    "placeId": "ChIJI0TwfljE7zYR6gp3lz3L5Ac"
+  },
+  {
+    "position": 8,
+    "title": "远东火锅",
+    "address": "中国四川省成都市武侯区武青东二路73号 邮政编码: 610045",
+    "latitude": 30.64189,
+    "longitude": 103.98527,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 28 8557 9691",
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAExF6RVQHYUpF1-pjrT0ZE9HjgUxKMZjX8OLbl-_e04EU8rWf7geoGTkBUsCKSfz_nGI42WU0WiQPYLGeChoxV_bi4TrWdZH--V6OSHFz9VfFEeJ85xnnLBjTHi5wm7xejPYhiF9A",
+    "cid": "11600085307553744331",
+    "fid": "0x36efc374dcff5ac9:0xa0fbc82098f805cb",
+    "placeId": "ChIJyVr_3HTD7zYRywX4mCDI-6A"
+  },
+  {
+    "position": 9,
+    "title": "蜀九香火锅酒楼",
+    "address": "中国成都市武侯区 邮政编码: 610044",
+    "latitude": 30.625009,
+    "longitude": 104.05845599999999,
+    "rating": 4.7,
+    "ratingCount": 32,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "website": "http://www.shujiuxiang.com/",
+    "phoneNumber": "+86 28 8557 0362",
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFyHRubx8Pz8nmXEwhxy9EZ2O10QixRXmxOIUIUzDUgt1ojOIYS8sTlAEVR6qw0M7wPeOcbuR94Eqqq7rhsiTbWdQS1ql7QKntDV36ojuIMa5gusBTKp1DJzaM2B-Hl_8fU4VSKzw",
+    "cid": "6472304271059237072",
+    "fid": "0x36efc5abf7b75b6d:0x59d23e715abab8d0",
+    "placeId": "ChIJbVu396vF7zYR0Li6WnE-0lk"
+  },
+  {
+    "position": 10,
+    "title": "重庆小龙坎老火锅",
+    "address": "中国四川省成都市成华区双林北横路109号附2-6 邮政编码: 610056",
+    "latitude": 30.653039,
+    "longitude": 104.110928,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "餐馆",
+    "types": [
+      "餐馆"
+    ],
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFeZgXzpggW2A-i5E0BtCxSBDFVb-D6hafBGMq8KZ4tW-GERHVK-9jWHHis66YNVe4oaskfHSvc00gW0qGI45K9aRVDkzORC_vT-fOio5NosJj3I_fDgIjf-JYOUNJ-iGyfZLEm",
+    "cid": "15384963127232610085",
+    "fid": "0x36efcff1f7bde951:0xd5825e73812ebf25",
+    "placeId": "ChIJUem99_HP7zYRJb8ugXNegtU"
+  },
+  {
+    "position": 11,
+    "title": "丁记特味火锅冒菜",
+    "address": "中国四川省成都市武侯区小天竺小天北街1号 邮政编码: 610093",
+    "latitude": 30.6344103,
+    "longitude": 104.06046169999999,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "火锅店",
+    "types": [
+      "火锅店",
+      "餐馆"
+    ],
+    "cid": "1908898275982408475",
+    "fid": "0x36efc506c7173a4d:0x1a7dc4de44497b1b",
+    "placeId": "ChIJTToXxwbF7zYRG3tJRN7EfRo"
+  },
+  {
+    "position": 12,
+    "title": "蜀九香火锅酒楼",
+    "address": "中国四川省成都市成华区建设南路20号 邮政编码: 610056",
+    "latitude": 30.668734899999997,
+    "longitude": 104.11711749999999,
+    "rating": 4.4,
+    "ratingCount": 5,
+    "type": "火锅店",
+    "types": [
+      "火锅店",
+      "餐馆"
+    ],
+    "website": "http://www.shujiuxiang.com/",
+    "phoneNumber": "+86 28 8430 0666",
+    "openingHours": {
+      "星期六": "09:00–00:00",
+      "星期日": "09:00–00:00",
+      "星期一": "09:00–00:00",
+      "星期二": "09:00–00:00",
+      "星期三": "09:00–00:00",
+      "星期四": "09:00–00:00",
+      "星期五": "09:00–00:00"
+    },
+    "cid": "2049187994892046963",
+    "fid": "0x36efcfe2046e6c57:0x1c702d9fd1891273",
+    "placeId": "ChIJV2xuBOLP7zYRcxKJ0Z8tcBw"
+  },
+  {
+    "position": 13,
+    "title": "寄炉火锅",
+    "address": "中国四川省成都市青羊区马镇街12号 邮政编码: 610017",
+    "latitude": 30.66873,
+    "longitude": 104.08582,
+    "rating": 5,
+    "ratingCount": 3,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoM3XGfzwDL53AK_W0TwtnEaJoA8CU7krqXzMeLXmqOuaMgP_av6H8iAUGklHkV7zHnsu0mXluk58E0MyuOoMS_ygSs-pJdJYInyAUQdd-1wxVLWbTivg-cjgcytDci00ZfxOPOp_3fDw",
+    "cid": "17955508909829973873",
+    "fid": "0x36efc54db386d0b9:0xf92ec8389bc6e771",
+    "placeId": "ChIJudCGs03F7zYRcefGmzjILvk"
+  },
+  {
+    "position": 14,
+    "title": "麻辣空间火锅食府彩虹桥店",
+    "address": "中国四川省成都市武侯区高升桥通祠路39号 邮政编码: 610093",
+    "latitude": 30.647398,
+    "longitude": 104.055511,
+    "rating": 4,
+    "ratingCount": 4,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "website": "http://sxxad.makong.cn/",
+    "phoneNumber": "+86 28 8557 5500",
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAG2mE38MPMSlMU7mNnLyq1P3E9Aj0D4HMWsL2DVU1DefVN96C9qW7HqCPgzZZApobbRCJhMkFLsUCvzctgAWQ7PWqSJpzUVKz7-1wQv9SvGJNyGfnDqBKgmQ9GCPI8lMNWZbhPcrA",
+    "cid": "8652180174316938224",
+    "fid": "0x36f02f730dca6761:0x7812b806fed6a3f0",
+    "placeId": "ChIJYWfKDXMv8DYR8KPW_ga4Eng"
+  },
+  {
+    "position": 15,
+    "title": "重庆火锅冒菜",
+    "address": "中国四川省成都市青羊区草市街西马道街135号 邮政编码: 610084",
+    "latitude": 30.676834,
+    "longitude": 104.07278099999999,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "餐馆",
+    "types": [
+      "餐馆"
+    ],
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH89hRzG2s3oHOsJdTsmy4hbRKHYIYJgcRnSM2HIwzNNJmTKC5GpykQG9MYSkec7Z666RzlnJax4gcV2dezi1UxQ8Mxa7JSWzsnE11XDe-SH1jY48yOMGE2RVc-kgprFwLalBIBTQ",
+    "cid": "9695364621502449083",
+    "fid": "0x36efdacb0a77bc0b:0x868cdac1488b05bb",
+    "placeId": "ChIJC7x3Csva7zYRuwWLSMHajIY"
+  },
+  {
+    "position": 16,
+    "title": "香天下欢乐火锅",
+    "address": "中国四川省成都市青羊区青羊大道 邮政编码: 610074",
+    "latitude": 30.663904,
+    "longitude": 104.008314,
+    "rating": 4,
+    "ratingCount": 2,
+    "type": "火锅店",
+    "types": [
+      "火锅店",
+      "餐馆"
+    ],
+    "phoneNumber": "+86 28 8225 6000",
+    "openingHours": {
+      "星期六": "10:30–00:00",
+      "星期日": "10:30–00:00",
+      "星期一": "10:30–00:00",
+      "星期二": "10:30–00:00",
+      "星期三": "10:30–00:00",
+      "星期四": "10:30–00:00",
+      "星期五": "10:30–00:00"
+    },
+    "cid": "10270886498901716135",
+    "fid": "0x36efc4a7308829df:0x8e8984da6f646ca7",
+    "placeId": "ChIJ3ymIMKfE7zYRp2xkb9qEiY4"
+  },
+  {
+    "position": 17,
+    "title": "李雪·牛杂火锅总店",
+    "address": "中国四川省成都市青羊区下同仁路72号 邮政编码: 610032",
+    "latitude": 30.6650857,
+    "longitude": 104.0519034,
+    "rating": 4.2,
+    "ratingCount": 6,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "phoneNumber": "+86 28 8959 1568",
+    "openingHours": {
+      "星期六": "11:00–22:00",
+      "星期日": "11:00–22:00",
+      "星期一": "11:00–22:00",
+      "星期二": "11:00–22:00",
+      "星期三": "11:00–22:00",
+      "星期四": "11:00–22:00",
+      "星期五": "11:00–22:00"
+    },
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHTknN7fP0Uus9biYOAxuh9KVu2ytvUQQfKs2CHm12r8lnK6SoUE06uBbMMPmrmoMqbZHtH8NeAZSe9YdNvZXy0BNzWyW6LlKVfzheQMQ6dcxBO7rb9ZbqT1fOZnGGffr5kprSfw5d5PhBV",
+    "cid": "246802922209661014",
+    "fid": "0x36efc4d789f739c3:0x36cd1f33bd5d056",
+    "placeId": "ChIJwzn3idfE7zYRVtDVO_PRbAM"
+  },
+  {
+    "position": 18,
+    "title": "重庆江北毛肚火锅",
+    "address": "中国四川省成都市青羊区楞伽庵街20号 邮政编码: 610014",
+    "latitude": 30.672781999999998,
+    "longitude": 104.07208,
+    "rating": 5,
+    "ratingCount": 2,
+    "type": "中餐馆",
+    "types": [
+      "中餐馆"
+    ],
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGfnppikw-WfyNlIlzgf2KUIasDG-TIB326MwTbSr7aqTu1JG2gH0kiqaMzvN5iRItTaMq4GIVfJO2I2fDDBvysRYreeWVLDpIw-M8mVGCGubXq7wziPRcsettIo__2wrFuhVQs-w",
+    "cid": "13207072416423085267",
+    "fid": "0x36efc534be75db1f:0xb748f2637fc204d3",
+    "placeId": "ChIJH9t1vjTF7zYR0wTCf2PySLc"
+  },
+  {
+    "position": 19,
+    "title": "土巴碗重庆老火锅",
+    "address": "中国四川省成都市武侯区双元街199号 邮政编码: 610093",
+    "latitude": 30.649699,
+    "longitude": 104.032562,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "火锅店",
+    "types": [
+      "火锅店",
+      "餐馆"
+    ],
+    "thumbnailUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFpAOqdJj-Nbc2cGdDV0hugM2z9kxKTQ8NWfgdMF5fi4rvjAUybOQzEERqqtWT4bVrzDQ8QlM1lbxeyptOQ8aAFLxUH3yY26vXF-zJBCZ0OVKRSHva8Y4UZ9SeqvaYlt8Yk4oXLhg",
+    "cid": "6694691018601589781",
+    "fid": "0x36efc4ec84b53769:0x5ce85202ecbeec15",
+    "placeId": "ChIJaTe1hOzE7zYRFey-7AJS6Fw"
+  },
+  {
+    "position": 20,
+    "title": "棒棒娃老火锅",
+    "address": "中国四川省成都市成华区建设路建设南路 邮政编码: 610056",
+    "latitude": 30.669152999999998,
+    "longitude": 104.115702,
+    "rating": 5,
+    "ratingCount": 1,
+    "type": "火锅店",
+    "types": [
+      "火锅店"
+    ],
+    "openingHours": {
+      "星期六": "10:00–22:00",
+      "星期日": "10:00–22:00",
+      "星期一": "10:00–22:00",
+      "星期二": "10:00–22:00",
+      "星期三": "10:00–22:00",
+      "星期四": "10:00–22:00",
+      "星期五": "10:00–22:00"
+    },
+    "cid": "15953770808067872833",
+    "fid": "0x36efcfe2767b20e5:0xdd672e05f2e1d841",
+    "placeId": "ChIJ5SB7duLP7zYRQdjh8gUuZ90"
+  }
+]

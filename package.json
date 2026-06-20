@@ -1,0 +1,13 @@
+{
+  "name": "chisha-liuyao",
+  "version": "0.1.0",
+  "description": "吃啥六爻 · 玄学餐厅推荐",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env server/server.js",
+    "dev": "node --env-file=.env --watch server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}
